@@ -53,7 +53,23 @@ app.get('/api', (req, res) => {
     baseUrl: "http://YOUR-APP-NAME.herokuapp.com", // CHANGE ME
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "GET", path: "/api/profile", description: "Data about me"}, // CHANGE ME
+
+      {
+        method: "GET", 
+        path: "/api/profile", 
+        description: "Data about me", 
+        name: "Rhea Roy",
+        githubUsername: "rhear0yishere",
+        githubLink: "https://github.com/rhear0yishere",
+        githubProfileImage: "",
+        personalSiteLink: "https://www.linkedin.com/in/rhearoy/", 
+        currentCity: "San Jose",
+        hobbies: [{name: "foo", type: "Cat", 
+        breed: "Siamese"}, {name: "bar", type: 
+        "Dog", breed: "Dalmation"}]
+
+      },
+
       {method: "POST", path: "/api/campsites", description: "E.g. Create a new campsite"} // CHANGE ME
     ]
   })
