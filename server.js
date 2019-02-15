@@ -103,7 +103,19 @@ app.get('/api', (req, res) => {
 
 let movies =[];
 
-app.get('/api/movie', (req, res) => {
+//create 
+app.post('/api/movies', (request, response) => {
+  let movie2 = new db.Movie ({
+    title : request.body.title,
+    director : request.body.director,
+  })
+    movies.push(movie2);
+    response.json(movies);
+});
+
+
+//retreiving
+app.get('/api/movies', (req, res) => {
   db.Movie.findOne((err,dummyMovie)=>{
     if (err){
       console.log("this aint it");
@@ -114,14 +126,56 @@ app.get('/api/movie', (req, res) => {
  
 });
 
-app.post('/api/movies', (request, response) => {
-  let movie2 = new db.Movie ({
-    title : request.body.title,
-    director : request.body.director,
-  })
-    movies.push(movie2);
-    response.json(movies);
+
+//this code doesn't work for me
+
+// app.delete('/api/movies/:id', (req, res) => {
+//   // get book id from url params (`req.params`)
+//   console.log('books delete', req.params);
+//   let movieId = req.params.id;
+//   // find the index of the book we want to remove
+//   db.Movie.findOneAndRemove({ _id: movieId },(err,movieId)=>{
+//     if (err) return next(err);
+//         res.send('Deleted successfully!');
+//   });
+//   });
+
+
+
+//Need to understand Brock's code better for delete
+app.delete('/api/movies/:id', function (req, res) {
+  // get movie id from url params (`req.params`)
+  // console.log('movies delete', req.params);
+  var movieID = req.params.id;
+  // find the index of the book we want to remove
+
+  //part that is confusing 
+  var deleteMovieIndex = movies.findIndex(function(element, index) {
+    //match parameter with the element that matches that id?
+    return (element._id === parseInt(req.params.id)); 
+    //params are strings
+    //finding index of the id that matches the parameter
+    //gets stored into deleteMovieIndex
+  });
+
+
+  // console.log('deleting movie with index', deleteMovieIndex);
+  var movieToDelete = movies[deleteMovieIndex];
+  console.log("DELETE",movieToDelete)
+  //splicing:
+
+  // method changes the contents of an array by 
+  //removing or replacing existing elements and/or adding new elements.
+
+  //splice (deleteMovieIndex,1)
+
+  //kind of confused why we're splicing
+
+  //only keeping that id in array to delete it?
+  movies.splice(deleteMovieIndex, 1);
+  res.json(movieToDelete);
 });
+
 
 
 // listen on the port that Heroku prescribes (process.env.PORT) OR port 3000
