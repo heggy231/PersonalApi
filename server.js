@@ -69,6 +69,7 @@ app.get('/api/profile', (req, res) => {
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
 
+
       {
         method: "GET", 
         path: "/api/profile", 
@@ -90,6 +91,12 @@ app.get('/api/profile', (req, res) => {
   })
 });
 
+
+app.get('/api/movie', (req, res) => {
+  db.Movie.find({},(err, newMovie))
+  if(err) { return console.log(err); }
+  res.json(newMovie);
+});
 /**********
  * SERVER *
  **********/
@@ -100,8 +107,3 @@ app.listen(process.env.PORT || 7000, () => {
 });
 
 
-app.get('/api/movie', (req, res) => {
-  db.Movie.find({},(err, newMovie))
-  if(err) { return console.log(err); }
-  res.json(newMovie);
-});
