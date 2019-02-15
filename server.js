@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 
-
+// let bodyParser = require('body-parser');
 
 const db = require ('./models');
 
@@ -57,7 +57,7 @@ app.get('/', function homepage(req, res) {
  * JSON API Endpoints
  */
 
-app.get('/api/profile', (req, res) => {
+app.get('/api', (req, res) => {
   // TODO: Document all your api endpoints below as a simple hardcoded JSON object.
   // It would be seriously overkill to save any of this to your database.
   // But you should change almost every line of this response.
@@ -67,6 +67,10 @@ app.get('/api/profile', (req, res) => {
     documentationUrl: "https://github.com/example-username/express-personal-api/README.md", // CHANGE ME
     baseUrl: "http://YOUR-APP-NAME.herokuapp.com", // CHANGE ME
     endpoints: [
+ 
+
+      
+
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
 
 
@@ -92,18 +96,36 @@ app.get('/api/profile', (req, res) => {
 });
 
 
-// app.get('/api/movie', (req, res) => {
-//   db.Movie.find({},(err, newMovie))
-//   if(err) { return console.log(err); }
-//   res.json(newMovie);
-// });
+
 /**********
  * SERVER *
  **********/
+
+let movies =[];
+
+app.get('/api/movie', (req, res) => {
+  db.Movie.findOne((err,dummyMovie)=>{
+    if (err){
+      console.log("this aint it");
+      }
+      movies.push(dummyMovie)
+      res.json(movies)
+  })
+ 
+});
+
+app.post('/api/movies', (request, response) => {
+  let movie2 = new db.Movie ({
+    title : request.body.title,
+    director : request.body.director,
+  })
+    movies.push(movie2);
+    response.json(movies);
+});
+
 
 // listen on the port that Heroku prescribes (process.env.PORT) OR port 3000
 app.listen(process.env.PORT || 7000, () => {
   console.log('Express server is up and running on http://localhost:3000/');
 });
-
-
+  
