@@ -92,11 +92,11 @@ app.get('/api/profile', (req, res) => {
 });
 
 
-app.get('/api/movie', (req, res) => {
-  db.Movie.find({},(err, newMovie))
-  if(err) { return console.log(err); }
-  res.json(newMovie);
-});
+// app.get('/api/movie', (req, res) => {
+//   db.Movie.find({},(err, newMovie))
+//   if(err) { return console.log(err); }
+//   res.json(newMovie);
+// });
 /**********
  * SERVER *
  **********/
