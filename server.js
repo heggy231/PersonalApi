@@ -2,6 +2,21 @@
 const express = require('express');
 const app = express();
 
+
+
+const db = require ('./models');
+
+const dummyMovie ={
+    name: "Iron Man",
+    director: "Jon Favreau",
+    releaseDate: 2007
+}
+
+db.Movie.create(dummyMovie,(err,newMovie)=>{
+    if(err) return console.log(err)
+    console.log(newMovie);
+});
+
 // parse incoming urlencoded form data
 // and populate the req.body object
 const bodyParser = require('body-parser');
@@ -42,7 +57,7 @@ app.get('/', function homepage(req, res) {
  * JSON API Endpoints
  */
 
-app.get('/api', (req, res) => {
+app.get('/api/profile', (req, res) => {
   // TODO: Document all your api endpoints below as a simple hardcoded JSON object.
   // It would be seriously overkill to save any of this to your database.
   // But you should change almost every line of this response.
@@ -82,4 +97,11 @@ app.get('/api', (req, res) => {
 // listen on the port that Heroku prescribes (process.env.PORT) OR port 3000
 app.listen(process.env.PORT || 7000, () => {
   console.log('Express server is up and running on http://localhost:3000/');
+});
+
+
+app.get('/api/movie', (req, res) => {
+  db.Movie.find({},(err, newMovie))
+  if(err) { return console.log(err); }
+  res.json(newMovie);
 });
