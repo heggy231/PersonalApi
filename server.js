@@ -6,6 +6,7 @@ const app = express();
 
 const db = require ('./models');
 
+//dummydata to make sure db is working
 const dummyMovie ={
     name: "Iron Man",
     director: "Jon Favreau",
@@ -101,10 +102,13 @@ app.get('/api', (req, res) => {
  * SERVER *
  **********/
 
+ //empty movies array that's going to hold the movies objects
 let movies =[];
 
 //create 
 app.post('/api/movies', (request, response) => {
+  //calling movie model 
+  //works in postman
   let movie2 = new db.Movie ({
     title : request.body.title,
     director : request.body.director,
@@ -127,18 +131,6 @@ app.get('/api/movies', (req, res) => {
 });
 
 
-//this code doesn't work for me
-
-// app.delete('/api/movies/:id', (req, res) => {
-//   // get book id from url params (`req.params`)
-//   console.log('books delete', req.params);
-//   let movieId = req.params.id;
-//   // find the index of the book we want to remove
-//   db.Movie.findOneAndRemove({ _id: movieId },(err,movieId)=>{
-//     if (err) return next(err);
-//         res.send('Deleted successfully!');
-//   });
-//   });
 
 
 
@@ -175,6 +167,19 @@ app.delete('/api/movies/:id', function (req, res) {
   movies.splice(deleteMovieIndex, 1);
   res.json(movieToDelete);
 });
+
+
+// updates movie //similar to delete function
+//i understand this even less than delete
+app.put('/api/movies/:id', function(req,res){
+    var movieId = req.params.id;
+    var updateMovieIndex = movies.findIndex(function(element, index) {
+      return (element._id === parseInt(req.params.id)); 
+    });
+    var movieToUpdate = movies[updateMovieIndex];
+    movies.splice(updateMovieIndex, 1, req.params);
+    res.json(req.params);
+  });
 
 
 
