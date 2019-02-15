@@ -7,16 +7,7 @@ const app = express();
 const db = require ('./models');
 
 //dummydata to make sure db is working
-const dummyMovie ={
-    name: "Iron Man",
-    director: "Jon Favreau",
-    releaseDate: 2007
-}
 
-db.Movie.create(dummyMovie,(err,newMovie)=>{
-    if(err) return console.log(err)
-    console.log(newMovie);
-});
 
 // parse incoming urlencoded form data
 // and populate the req.body object
@@ -68,25 +59,25 @@ app.get('/api', (req, res) => {
     documentationUrl: "https://github.com/example-username/express-personal-api/README.md", // CHANGE ME
     baseUrl: "http://YOUR-APP-NAME.herokuapp.com", // CHANGE ME
     endpoints: [
- 
 
-      
+
+
 
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
 
 
       {
-        method: "GET", 
-        path: "/api/profile", 
-        description: "Data about me", 
+        method: "GET",
+        path: "/api/profile",
+        description: "Data about me",
         name: "Rhea Roy",
         githubUsername: "rhear0yishere",
         githubLink: "https://github.com/rhear0yishere",
         githubProfileImage: "",
-        personalSiteLink: "https://www.linkedin.com/in/rhearoy/", 
+        personalSiteLink: "https://www.linkedin.com/in/rhearoy/",
         currentCity: "San Jose",
-        hobbies: [{name: "foo", type: "Cat", 
-        breed: "Siamese"}, {name: "bar", type: 
+        hobbies: [{name: "foo", type: "Cat",
+        breed: "Siamese"}, {name: "bar", type:
         "Dog", breed: "Dalmation"}]
 
       },
@@ -105,9 +96,9 @@ app.get('/api', (req, res) => {
  //empty movies array that's going to hold the movies objects
 let movies =[];
 
-//create 
+//create
 app.post('/api/movies', (request, response) => {
-  //calling movie model 
+  //calling movie model
   //works in postman
   let movie2 = new db.Movie ({
     title : request.body.title,
@@ -127,7 +118,7 @@ app.get('/api/movies', (req, res) => {
       movies.push(dummyMovie)
       res.json(movies)
   })
- 
+
 });
 
 
@@ -141,10 +132,10 @@ app.delete('/api/movies/:id', function (req, res) {
   var movieID = req.params.id;
   // find the index of the book we want to remove
 
-  //part that is confusing 
+  //part that is confusing
   var deleteMovieIndex = movies.findIndex(function(element, index) {
     //match parameter with the element that matches that id?
-    return (element._id === parseInt(req.params.id)); 
+    return (element._id === parseInt(req.params.id));
     //params are strings
     //finding index of the id that matches the parameter
     //gets stored into deleteMovieIndex
@@ -156,7 +147,7 @@ app.delete('/api/movies/:id', function (req, res) {
   console.log("DELETE",movieToDelete)
   //splicing:
 
-  // method changes the contents of an array by 
+  // method changes the contents of an array by
   //removing or replacing existing elements and/or adding new elements.
 
   //splice (deleteMovieIndex,1)
@@ -174,7 +165,7 @@ app.delete('/api/movies/:id', function (req, res) {
 app.put('/api/movies/:id', function(req,res){
     var movieId = req.params.id;
     var updateMovieIndex = movies.findIndex(function(element, index) {
-      return (element._id === parseInt(req.params.id)); 
+      return (element._id === parseInt(req.params.id));
     });
     var movieToUpdate = movies[updateMovieIndex];
     movies.splice(updateMovieIndex, 1, req.params);
@@ -184,7 +175,7 @@ app.put('/api/movies/:id', function(req,res){
 
 
 // listen on the port that Heroku prescribes (process.env.PORT) OR port 3000
-app.listen(process.env.PORT || 7000, () => {
+app.listen(process.env.PORT || 9000, () => {
   console.log('Express server is up and running on http://localhost:3000/');
 });
-  
+
